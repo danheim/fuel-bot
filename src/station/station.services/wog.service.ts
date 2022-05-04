@@ -18,10 +18,16 @@ export class WogService {
 
   private readonly WOG_API_URL = 'https://api.wog.ua/fuel_stations/';
 
-  async run(senderId: number) {
+  async run({ senderId, startTime }) {
     const wog = await this.searchStations();
+    const latency = ((new Date().getTime() - startTime) / 1000).toFixed(2);
 
-    const message = `WOG: Найдено станций: ${wog.count}\n\n${wog.stations}`;
+    const message = [
+      `WOG: Найдено станций: ${wog.count}\n`,
+      wog.stations,
+      `\nДанные загружены за ${latency}с.`,
+    ].join('\n');
+
     this.telegramService.sendMessage(senderId, message);
   }
 

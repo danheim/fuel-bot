@@ -10,10 +10,16 @@ export class SocarService {
   private readonly SOCAR_API_URL =
     'https://socar.ua/api/map/stations?region=207&services=';
 
-  async run(senderId: number) {
+  async run({ senderId, startTime }) {
     const socar = await this.searchStations();
+    const latency = ((new Date().getTime() - startTime) / 1000).toFixed(2);
 
-    const message = `SOCAR: Найдено станций: ${socar.count}\n\n${socar.stations}`;
+    const message = [
+      `SOCAR: Найдено станций: ${socar.count}\n`,
+      socar.stations,
+      `\nДанные загружены за ${latency}с.`,
+    ].join('\n');
+
     this.telegramService.sendMessage(senderId, message);
   }
 

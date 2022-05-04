@@ -12,10 +12,8 @@ export class StationProcessor {
 
   @Process('search')
   search(job: Job) {
-    const senderId: number = job.data.senderId;
-
     // TODO: Create module for each oil company
-    this.wogService.run(senderId);
-    this.socarService.run(senderId);
+    this.wogService.run(job.data);
+    this.socarService.run(job.data);
   }
 }

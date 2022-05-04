@@ -18,6 +18,10 @@ export class TelegramUpdate {
   async hearsSearch(ctx: Context) {
     const { id: senderId } = ctx.message.from;
 
-    this.fuelQueue.add('search', { senderId });
+    this.fuelQueue.add('search', {
+      senderId,
+      startTime: new Date().getTime(),
+    });
+    console.log(`GOT REQUEST FROM ${ctx.message.from.username}`);
   }
 }
