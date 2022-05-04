@@ -14,6 +14,7 @@ export class StationProcessor {
   search(job: Job) {
     const senderId: number = job.data.senderId;
 
+    // TODO: Create module for each oil company
     this.wogService.run(senderId);
     this.socarService.run(senderId);
   }
