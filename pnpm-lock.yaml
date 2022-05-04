@@ -11,6 +11,7 @@ specifiers:
   '@nestjs/schematics': ^8.0.0
   '@nestjs/testing': ^8.0.0
   '@types/bull': ^3.15.8
+  '@types/cache-manager': ^3.4.3
   '@types/express': ^4.17.13
   '@types/jest': 27.4.0
   '@types/node': ^16.0.0
@@ -19,6 +20,8 @@ specifiers:
   '@typescript-eslint/parser': ^5.0.0
   axios: ^0.27.2
   bull: ^4.8.2
+  cache-manager: ^3.6.1
+  cache-manager-redis-store: ^2.0.0
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
@@ -26,6 +29,7 @@ specifiers:
   jest: ^27.2.5
   nestjs-telegraf: ^2.4.0
   prettier: ^2.3.2
+  redis: ^4.1.0
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
   rxjs: ^7.2.0
@@ -42,14 +46,17 @@ specifiers:
 dependencies:
   '@nestjs/axios': 0.0.7_ozyn6uy6pikqhtn6hfkzt5a5w4
   '@nestjs/bull': 0.5.4_bcr3j3fv6a4gwmkrt3jbkqzb2a
-  '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+  '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
   '@nestjs/config': 2.0.0_ozyn6uy6pikqhtn6hfkzt5a5w4
   '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
   '@nestjs/platform-express': 8.4.4_u6bxr3c7htwmhq2t5wi3k6ht4y
   axios: 0.27.2
   bull: 4.8.2
+  cache-manager: 3.6.1
+  cache-manager-redis-store: 2.0.0
   got: 12.0.4
   nestjs-telegraf: 2.4.0_fopxez5bxgrkro4eop3bfqbuja
+  redis: 4.1.0
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 7.5.5
@@ -61,6 +68,7 @@ devDependencies:
   '@nestjs/schematics': 8.0.10_typescript@4.6.4
   '@nestjs/testing': 8.4.4_loutjh2c633gtj2hgeppyprxme
   '@types/bull': 3.15.8
+  '@types/cache-manager': 3.4.3
   '@types/express': 4.17.13
   '@types/jest': 27.4.0
   '@types/node': 16.11.33
@@ -768,7 +776,7 @@ packages:
       reflect-metadata: ^0.1.12
       rxjs: ^6.0.0 || ^7.0.0
     dependencies:
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       axios: 0.26.0
       reflect-metadata: 0.1.13
       rxjs: 7.5.5
@@ -782,7 +790,7 @@ packages:
       '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0
       '@nestjs/core': ^6.10.11 || ^7.0.0 || ^8.0.0
     dependencies:
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
       tslib: 2.3.1
     dev: false
@@ -795,7 +803,7 @@ packages:
       bull: ^3.3 || ^4.0.0
     dependencies:
       '@nestjs/bull-shared': 0.0.4_u6bxr3c7htwmhq2t5wi3k6ht4y
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
       bull: 4.8.2
       tslib: 2.3.1
@@ -836,7 +844,7 @@ packages:
       - webpack-cli
     dev: true
 
-  /@nestjs/common/8.4.4_47vcjb2de6lyibr6g4enoa5lyu:
+  /@nestjs/common/8.4.4_aqmuef4cujqdsjnoqoixl7sb5u:
     resolution: {integrity: sha512-QHi7QcgH/5Jinz+SCfIZJkFHc6Cch1YsAEGFEhi6wSp6MILb0sJMQ1CX06e9tCOAjSlBwaJj4PH0eFCVau5v9Q==}
     peerDependencies:
       cache-manager: '*'
@@ -853,6 +861,7 @@ packages:
         optional: true
     dependencies:
       axios: 0.26.1
+      cache-manager: 3.6.1
       iterare: 1.2.1
       reflect-metadata: 0.1.13
       rxjs: 7.5.5
@@ -869,7 +878,7 @@ packages:
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       dotenv: 16.0.0
       dotenv-expand: 8.0.2
       lodash: 4.17.21
@@ -896,7 +905,7 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       '@nestjs/platform-express': 8.4.4_u6bxr3c7htwmhq2t5wi3k6ht4y
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
@@ -917,7 +926,7 @@ packages:
       '@nestjs/common': ^8.0.0
       '@nestjs/core': ^8.0.0
     dependencies:
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
       body-parser: 1.20.0
       cors: 2.8.5
@@ -970,7 +979,7 @@ packages:
         optional: true
     dependencies:
       optional: 0.1.4
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
       '@nestjs/platform-express': 8.4.4_u6bxr3c7htwmhq2t5wi3k6ht4y
       tslib: 2.3.1
@@ -1007,6 +1016,55 @@ packages:
       node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@redis/bloom/1.0.2_@redis+client@1.1.0:
+    resolution: {integrity: sha512-EBw7Ag1hPgFzdznK2PBblc1kdlj5B5Cw3XwI9/oG7tSn85/HKy3X9xHy/8tm/eNXJYHLXHJL/pkwBpFMVVefkw==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/client/1.1.0:
+    resolution: {integrity: sha512-xO9JDIgzsZYDl3EvFhl6LC52DP3q3GCMUer8zHgKV6qSYsq1zB+pZs9+T80VgcRogrlRYhi4ZlfX6A+bHiBAgA==}
+    engines: {node: '>=14'}
+    dependencies:
+      cluster-key-slot: 1.1.0
+      generic-pool: 3.8.2
+      yallist: 4.0.0
+    dev: false
+
+  /@redis/graph/1.0.1_@redis+client@1.1.0:
+    resolution: {integrity: sha512-oDE4myMCJOCVKYMygEMWuriBgqlS5FqdWerikMoJxzmmTUErnTRRgmIDa2VcgytACZMFqpAOWDzops4DOlnkfQ==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/json/1.0.3_@redis+client@1.1.0:
+    resolution: {integrity: sha512-4X0Qv0BzD9Zlb0edkUoau5c1bInWSICqXAGrpwEltkncUwcxJIGEcVryZhLgb0p/3PkKaLIWkjhHRtLe9yiA7Q==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/search/1.0.6_@redis+client@1.1.0:
+    resolution: {integrity: sha512-pP+ZQRis5P21SD6fjyCeLcQdps+LuTzp2wdUbzxEmNhleighDDTD5ck8+cYof+WLec4csZX7ks+BuoMw0RaZrA==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
+    dev: false
+
+  /@redis/time-series/1.0.3_@redis+client@1.1.0:
+    resolution: {integrity: sha512-OFp0q4SGrTH0Mruf6oFsHGea58u8vS/iI5+NpYdicaM+7BgqBZH8FFvNZ8rYYLrUO/QRqMq72NpXmxLVNcdmjA==}
+    peerDependencies:
+      '@redis/client': ^1.0.0
+    dependencies:
+      '@redis/client': 1.1.0
     dev: false
 
   /@sindresorhus/is/4.6.0:
@@ -1095,6 +1153,10 @@ packages:
     dependencies:
       '@types/ioredis': 4.28.10
       '@types/redis': 2.8.32
+    dev: true
+
+  /@types/cache-manager/3.4.3:
+    resolution: {integrity: sha512-71aBXoFYXZW4TnDHHH8gExw2lS28BZaWeKefgsiJI7QYZeJfUEbMKw6CQtzGjlYQcGIWwB76hcCrkVA3YHSvsw==}
     dev: true
 
   /@types/cacheable-request/6.0.2:
@@ -1674,6 +1736,10 @@ packages:
     resolution: {integrity: sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=}
     dev: true
 
+  /async/3.2.3:
+    resolution: {integrity: sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==}
+    dev: false
+
   /asynckit/0.4.0:
     resolution: {integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=}
 
@@ -1923,6 +1989,21 @@ packages:
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /cache-manager-redis-store/2.0.0:
+    resolution: {integrity: sha512-bWLWlUg6nCYHiJLCCYxY2MgvwvKnvlWwrbuynrzpjEIhfArD2GC9LtutIHFEPeyGVQN6C+WEw+P3r+BFBwhswg==}
+    engines: {node: '>= 8.3'}
+    dependencies:
+      redis: 3.1.2
+    dev: false
+
+  /cache-manager/3.6.1:
+    resolution: {integrity: sha512-jxJvGYhN5dUgpriAdsDnnYbKse4dEXI5i3XpwTfPq5utPtXH1uYXWyGLHGlbSlh9Vq4ytrgAUVwY+IodNeKigA==}
+    dependencies:
+      async: 3.2.3
+      lodash: 4.17.21
+      lru-cache: 6.0.0
     dev: false
 
   /cacheable-lookup/6.0.4:
@@ -2935,6 +3016,11 @@ packages:
   /functional-red-black-tree/1.0.1:
     resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
     dev: true
+
+  /generic-pool/3.8.2:
+    resolution: {integrity: sha512-nGToKy6p3PAbYQ7p1UlWl6vSPwfwU6TMSWK7TTu+WUY4ZjyZQGniGGt2oNVvyNSpyZYSB43zMXVLcBm08MTMkg==}
+    engines: {node: '>= 4'}
+    dev: false
 
   /gensync/1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -4311,7 +4397,7 @@ packages:
       telegraf: ^4.0.0
       typescript: ^4.1.2
     dependencies:
-      '@nestjs/common': 8.4.4_47vcjb2de6lyibr6g4enoa5lyu
+      '@nestjs/common': 8.4.4_aqmuef4cujqdsjnoqoixl7sb5u
       '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
       lodash: 4.17.21
       reflect-metadata: 0.1.13
@@ -4777,6 +4863,27 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       redis-errors: 1.2.0
+    dev: false
+
+  /redis/3.1.2:
+    resolution: {integrity: sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw==}
+    engines: {node: '>=10'}
+    dependencies:
+      denque: 1.5.1
+      redis-commands: 1.7.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+    dev: false
+
+  /redis/4.1.0:
+    resolution: {integrity: sha512-5hvJ8wbzpCCiuN1ges6tx2SAh2XXCY0ayresBmu40/SGusWHFW86TAlIPpbimMX2DFHOX7RN34G2XlPA1Z43zg==}
+    dependencies:
+      '@redis/bloom': 1.0.2_@redis+client@1.1.0
+      '@redis/client': 1.1.0
+      '@redis/graph': 1.0.1_@redis+client@1.1.0
+      '@redis/json': 1.0.3_@redis+client@1.1.0
+      '@redis/search': 1.0.6_@redis+client@1.1.0
+      '@redis/time-series': 1.0.3_@redis+client@1.1.0
     dev: false
 
   /reflect-metadata/0.1.13:

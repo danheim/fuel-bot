@@ -1,37 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { WogStation } from '../station.types';
 import { TelegramService } from '../../telegram/telegram.service';
+import type { Cache } from 'cache-manager';
 
 @Injectable()
 export class WogService {
-  constructor(private readonly telegramService: TelegramService) {}
+  constructor(
+    private readonly telegramService: TelegramService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   static parseDescription(description: string) {
     return description
       .split('\n')
       .filter(Boolean)
       .slice(1)
-      .filter((fuel) => fuel.includes('95') || fuel.includes('М100'))
+      .filter(
+        (fuel) =>
+          fuel.includes('95') || fuel.includes('М100') || fuel.includes('98'),
+      )
       .join('\n');
   }
 
   private readonly WOG_API_URL = 'https://api.wog.ua/fuel_stations/';
 
-  async run({ senderId, startTime }) {
-    const wog = await this.searchStations();
+  async run({ senderId, startTime, useCache = true }) {
+    const wog = await this.searchStations(useCache);
     const latency = ((new Date().getTime() - startTime) / 1000).toFixed(2);
 
     const message = [
-      `WOG: Найдено станций: ${wog.count}\n`,
+      `WOG: Найдено станций: ${wog.count}`,
       wog.stations,
-      `\nДанные загружены за ${latency}с.`,
-    ].join('\n');
+      `Данные загружены за ${latency}с.`,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
 
     this.telegramService.sendMessage(senderId, message);
   }
 
-  async searchStations() {
+  async searchStations(useCache) {
+    if (useCache) {
+      const cache = await this.cacheManager.get<string>('wog');
+
+      if (cache) {
+        return JSON.parse(cache);
+      }
+    }
+
     const response = await axios.get(this.WOG_API_URL);
     const stations: WogStation[] = response.data.data.stations || [];
 
@@ -50,12 +67,16 @@ export class WogService {
       station.fuel.includes('Готівка, банк.картки'),
     );
 
-    return {
+    const wogData = {
       count: stationsWithFuel.length,
       stations: stationsWithFuel
         .map((station) => `*WOG: ${station.name}*\n${station.fuel}`)
         .join('\n\n'),
     };
+
+    await this.cacheManager.set('wog', JSON.stringify(wogData), { ttl: 120 });
+
+    return wogData;
   }
 
   private async getStationDetails(stationId: number) {

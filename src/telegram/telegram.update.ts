@@ -20,6 +20,7 @@ export class TelegramUpdate {
       senderId,
       startTime: new Date().getTime(),
     });
+
     console.log(`GOT REQUEST FROM ${ctx.message.from.username}`);
   }
 }

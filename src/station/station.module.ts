@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { WogService } from './station.services/wog.service';
 import { OkkoService } from './station.services/okko.service';
 import { SocarService } from './station.services/socar.service';
@@ -8,6 +8,7 @@ import { TelegramModule } from '../telegram/telegram.module';
 
 @Module({
   imports: [
+    CacheModule.register(),
     BullModule.registerQueue({
       name: 'fuel',
     }),
