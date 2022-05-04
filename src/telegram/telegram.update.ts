@@ -9,9 +9,7 @@ export class TelegramUpdate {
 
   @Start()
   async startCommand(ctx: Context) {
-    ctx.replyWithMarkdown(
-      `Привет. Бот для поиска топлива *в разработке*.\nАвтор t.me/tragenstolz`,
-    );
+    ctx.replyWithMarkdown(`Привет. Бот для поиска топлива *в разработке*`);
   }
 
   @Hears('search')
