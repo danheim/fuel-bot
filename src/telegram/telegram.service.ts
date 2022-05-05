@@ -11,4 +11,18 @@ export class TelegramService {
       parse_mode: 'Markdown',
     });
   }
+
+  async sendSearchButton(chatId: number) {
+    await this.tgService.telegram.sendMessage(
+      chatId,
+      'Чтобы искать повторно, нажмите на кнопку ниже',
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: 'Поиск бензина', callback_data: 'search' }],
+          ],
+        },
+      },
+    );
+  }
 }
