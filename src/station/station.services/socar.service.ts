@@ -26,7 +26,7 @@ export class SocarService {
       .filter(Boolean)
       .join('\n\n');
 
-    this.telegramService.sendMessage(senderId, message);
+    await this.telegramService.sendMessage(senderId, message);
   }
 
   async searchStations(useCache = true) {

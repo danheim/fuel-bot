@@ -8,8 +8,16 @@ export class TelegramUpdate {
   constructor(@InjectQueue('fuel') private readonly fuelQueue: Queue) {}
 
   @Start()
-  async startCommand(ctx: Context) {
-    ctx.replyWithMarkdown(`Привет.`);
+  startCommand(ctx: Context) {
+    const messages = [
+      'Привет 🇺🇦\n',
+      'Это бот по поиску топлива в Киеве',
+      'На данный момент поиск проводится по заправкам WOG и SOCAR',
+      'Чтобы начать поиск, напишите команду /search\n',
+      'Автор бота - @tragenstolz',
+    ];
+
+    ctx.replyWithMarkdown(messages.join('\n'));
   }
 
   @Hears('search')
@@ -36,5 +44,10 @@ export class TelegramUpdate {
         `GOT REQUEST FROM ${ctx.update.callback_query.from.username}`,
       );
     }
+  }
+
+  @Command('search')
+  commandSearch(ctx: Context) {
+    this.hearsSearch(ctx);
   }
 }

@@ -37,7 +37,7 @@ export class WogService {
       .filter(Boolean)
       .join('\n\n');
 
-    this.telegramService.sendMessage(senderId, message);
+    await this.telegramService.sendMessage(senderId, message);
   }
 
   async searchStations(useCache) {
