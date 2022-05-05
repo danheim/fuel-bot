@@ -5,17 +5,16 @@ import { StationModule } from './station/station.module';
 import { BullModule } from '@nestjs/bull';
 import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
-import { RedisClientOptions } from 'redis';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    CacheModule.register<RedisClientOptions>({
+    ScheduleModule.forRoot(),
+    CacheModule.register({
       store: redisStore,
-      socket: {
-        host: process.env.REDIS_HOST,
-        port: Number(process.env.REDIS_PORT),
-      },
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
     }),
     BullModule.forRoot({
       redis: {

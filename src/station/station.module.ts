@@ -5,6 +5,7 @@ import { SocarService } from './station.services/socar.service';
 import { BullModule } from '@nestjs/bull';
 import { StationProcessor } from './station.processor';
 import { TelegramModule } from '../telegram/telegram.module';
+import { StationService } from './station.service';
 
 @Module({
   imports: [
@@ -14,7 +15,13 @@ import { TelegramModule } from '../telegram/telegram.module';
     }),
     TelegramModule,
   ],
-  providers: [WogService, SocarService, OkkoService, StationProcessor],
+  providers: [
+    WogService,
+    SocarService,
+    OkkoService,
+    StationProcessor,
+    StationService,
+  ],
   exports: [WogService, SocarService, OkkoService],
 })
 export class StationModule {}
