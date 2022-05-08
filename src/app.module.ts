@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app/app.controller';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AppController } from './app/app.controller';
     BullModule.registerQueue({ name: 'fuel' }),
     TelegramModule,
     StationModule,
+    LoggerModule,
   ],
   controllers: [AppController],
 })

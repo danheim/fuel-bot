@@ -2,9 +2,12 @@ import { Action, Command, Hears, Start, Update } from 'nestjs-telegraf';
 import type { Context } from 'telegraf';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
+import { Logger } from '@nestjs/common';
 
 @Update()
 export class TelegramUpdate {
+  private readonly logger = new Logger(TelegramUpdate.name);
+
   constructor(@InjectQueue('fuel') private readonly fuelQueue: Queue) {}
 
   @Start()
@@ -29,7 +32,7 @@ export class TelegramUpdate {
       startTime: new Date().getTime(),
     });
 
-    console.log(`GOT REQUEST FROM ${ctx.message.from.username}`);
+    this.logger.log(`Request from: ${ctx.message.from.username}`);
   }
 
   @Action('search')
@@ -40,8 +43,8 @@ export class TelegramUpdate {
         startTime: new Date().getTime(),
       });
 
-      console.log(
-        `GOT REQUEST FROM ${ctx.update.callback_query.from.username}`,
+      this.logger.log(
+        `Request from: ${ctx.update.callback_query.from.username}`,
       );
     }
   }

@@ -70,9 +70,15 @@ export class WogService {
       fuel: WogService.parseDescription(station.workDescription),
     }));
 
-    const stationsWithFuel = stationsShortInfo.filter((station) =>
-      station.fuel.includes('Готівка, банк.картки'),
-    );
+    const stationsWithFuel = stationsShortInfo.filter((station) => {
+      const lower = station.fuel.toLowerCase();
+
+      return (
+        lower.includes('готівка, банк.картки') ||
+        lower.includes('прайд') ||
+        lower.includes('талон')
+      );
+    });
 
     const wogData = {
       count: stationsWithFuel.length,
