@@ -1,38 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  utilities as nestWinstonModuleUtilities,
-  WinstonModule,
-} from 'nest-winston';
-import * as winston from 'winston';
-import * as WinstonCloudWatch from 'winston-cloudwatch';
-import * as moment from 'moment';
+import { logger } from './core/logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: WinstonModule.createLogger({
-      format: winston.format.uncolorize(),
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.ms(),
-            nestWinstonModuleUtilities.format.nestLike(),
-          ),
-        }),
-        new WinstonCloudWatch({
-          name: 'Cloudwatch Logs',
-          logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
-          logStreamName: moment(new Date()).format('lll').replace(':', '-'),
-          awsRegion: process.env.CLOUDWATCH_AWS_REGION,
-          awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
-          awsSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
-          messageFormatter: (item) =>
-            `[${item.level}] [${item.context}]: ${item.message}`,
-        }),
-      ],
-    }),
-  });
+  const app = await NestFactory.create(AppModule, { logger });
   await app.listen(3000);
 }
 bootstrap();
