@@ -23,18 +23,12 @@ async function bootstrap() {
         new WinstonCloudWatch({
           name: 'Cloudwatch Logs',
           logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
-          logStreamName: moment(new Date()).format('L'),
+          logStreamName: moment(new Date()).format('lll').replace(':', '-'),
           awsRegion: process.env.CLOUDWATCH_AWS_REGION,
           awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
           awsSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
-          messageFormatter: function (item) {
-            // if (!Object.values(item.meta)) {
-            //   return `${item.level}: ${item.message}`;
-            // }
-            // console.log(Object.values(item.meta));
-
-            return `[${item.name}] ${item.level}: ${item.message}`;
-          },
+          messageFormatter: (item) =>
+            `[${item.level}] [${item.context}]: ${item.message}`,
         }),
       ],
     }),
