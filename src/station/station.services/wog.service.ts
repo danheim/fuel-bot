@@ -29,6 +29,13 @@ export class WogService {
     const wog = await this.searchStations(useCache);
     const latency = ((new Date().getTime() - startTime) / 1000).toFixed(2);
 
+    if (wog.count === 0) {
+      return this.telegramService.sendMessage(
+        senderId,
+        'WOG: Не найдены заправки с топливом',
+      );
+    }
+
     const message = [
       `WOG: Найдено станций: ${wog.count}`,
       wog.stations,

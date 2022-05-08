@@ -14,12 +14,7 @@ export class StationProcessor {
 
   @Process('search')
   async search(job: Job) {
-    // TODO: Create module for each oil company
-    await Promise.all([
-      this.wogService.run(job.data),
-      this.socarService.run(job.data),
-    ]);
-
-    this.telegramService.sendSearchButton(job.data.senderId);
+    this.wogService.run(job.data);
+    this.socarService.run(job.data);
   }
 }

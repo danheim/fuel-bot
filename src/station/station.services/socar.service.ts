@@ -18,6 +18,13 @@ export class SocarService {
     const socar = await this.searchStations(useCache);
     const latency = ((new Date().getTime() - startTime) / 1000).toFixed(2);
 
+    if (socar.count === 0) {
+      return this.telegramService.sendMessage(
+        senderId,
+        'SOCAR: Не найдены заправки с топливом',
+      );
+    }
+
     const message = [
       `SOCAR: Найдено станций: ${socar.count}`,
       socar.stations,

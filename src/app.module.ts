@@ -6,6 +6,7 @@ import { BullModule } from '@nestjs/bull';
 import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AppController } from './app/app.controller';
 
 @Module({
   imports: [
@@ -25,8 +26,10 @@ import { ScheduleModule } from '@nestjs/schedule';
     TelegrafModule.forRoot({
       token: process.env.TELEGRAM_TOKEN,
     }),
+    BullModule.registerQueue({ name: 'fuel' }),
     TelegramModule,
     StationModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
