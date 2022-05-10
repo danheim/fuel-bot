@@ -3,9 +3,13 @@ import { Job } from 'bull';
 import { WogService } from './station.services/wog.service';
 import { SocarService } from './station.services/socar.service';
 import { TelegramService } from '../telegram/telegram.service';
+import { Logger } from '@nestjs/common';
+import { TelegramUpdate } from '../telegram/telegram.update';
 
 @Processor('fuel')
 export class StationProcessor {
+  private readonly logger = new Logger(TelegramUpdate.name);
+
   constructor(
     private readonly wogService: WogService,
     private readonly socarService: SocarService,
@@ -14,7 +18,12 @@ export class StationProcessor {
 
   @Process('search')
   async search(job: Job) {
-    this.wogService.run(job.data);
-    this.socarService.run(job.data);
+    try {
+      this.wogService.run(job.data);
+      this.socarService.run(job.data);
+    } catch (error) {
+      this.logger.error('Failed to process search job');
+      this.logger.error(error);
+    }
   }
 }

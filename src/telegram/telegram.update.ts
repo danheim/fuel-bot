@@ -1,5 +1,5 @@
-import { Action, Command, Hears, Start, Update } from 'nestjs-telegraf';
-import type { Context } from 'telegraf';
+import { Command, Hears, Start, Update } from 'nestjs-telegraf';
+import { Context, Markup } from 'telegraf';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { Logger } from '@nestjs/common';
@@ -11,19 +11,28 @@ export class TelegramUpdate {
   constructor(@InjectQueue('fuel') private readonly fuelQueue: Queue) {}
 
   @Start()
-  startCommand(ctx: Context) {
-    const messages = [
-      'Привет 🇺🇦\n',
-      'Это бот по поиску топлива в Киеве',
-      'На данный момент поиск проводится по заправкам WOG и SOCAR',
-      'Чтобы начать поиск, напишите команду /search\n',
-      'Автор бота - @tragenstolz',
-    ];
+  async startCommand(ctx: Context) {
+    const { first_name } = ctx.message.from;
 
-    ctx.replyWithMarkdown(messages.join('\n'));
+    try {
+      const messages = [
+        `Привет ${first_name}! 👋`,
+        `Меня зовут FuelTracker бот. Вот что я умею:\n`,
+        '- ⛽ Поиск заправочных станций с бензином в *Киеве*\n',
+        'Больше информации: @tragenstolz',
+        'Начнем поиск?',
+      ];
+
+      await ctx.replyWithMarkdown(
+        messages.join('\n'),
+        Markup.keyboard(['🔍 Искать в Киеве']).resize(),
+      );
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 
-  @Hears('search')
+  @Hears('🔍 Искать в Киеве')
   hearsSearch(ctx: Context) {
     const { id: senderId } = ctx.message.from;
 
@@ -35,22 +44,11 @@ export class TelegramUpdate {
     this.logger.log(`Request from: ${ctx.message.from.username}`);
   }
 
-  @Action('search')
-  actionSearch(ctx: Context) {
-    if ('callback_query' in ctx.update) {
-      this.fuelQueue.add('search', {
-        senderId: ctx.update.callback_query.from.id,
-        startTime: new Date().getTime(),
-      });
+  @Command('counts')
+  async counts(ctx: Context) {
+    const counts = await this.fuelQueue.getJobCounts();
+    const message = JSON.stringify(counts, null, 2);
 
-      this.logger.log(
-        `Request from: ${ctx.update.callback_query.from.username}`,
-      );
-    }
-  }
-
-  @Command('search')
-  commandSearch(ctx: Context) {
-    this.hearsSearch(ctx);
+    await ctx.replyWithMarkdown(message);
   }
 }
